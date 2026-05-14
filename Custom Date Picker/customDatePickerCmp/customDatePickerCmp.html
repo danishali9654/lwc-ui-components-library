@@ -1,0 +1,73 @@
+<template>
+    <div class="date-wrapper">
+
+        <!-- Input -->
+        <div class="input-box" onclick={toggleCalendar}>
+            <span class={inputClass}>{formattedDate}</span>
+            <lightning-icon icon-name="utility:date" size="small"></lightning-icon>
+        </div>
+
+        <!-- Calendar -->
+        <template if:true={showCalendar}>
+            <div class="calendar" onclick={handleCalendarClick}>
+
+                <!-- Header -->
+                <div class="header slds-grid slds-grid_align-spread slds-p-around_small">
+                    <lightning-button-icon icon-name="utility:left" 
+                        onclick={prevMonth} class="prevMonth" ></lightning-button-icon>
+
+                    <div class="month-label">{monthLabel}</div>
+
+                    <lightning-button-icon icon-name="utility:right" 
+                        onclick={nextMonth} class="nextMonth" ></lightning-button-icon>
+
+                    <div class="year-dropdown">
+    <div class="trigger" onclick={toggleYearDropdown}>
+        {currentYear}
+        <lightning-icon icon-name="utility:down" size="x-small"></lightning-icon>
+    </div>
+
+    <template if:true={showYearDropdown}>
+        <div class="ddmenu">
+            <template for:each={yearOptions} for:item="y">
+                <div key={y.value}
+                     class="item"
+                     data-value={y.value}
+                     onclick={selectYear}>
+                    {y.label}
+                </div>
+            </template>
+        </div>
+    </template>
+</div>
+                </div>
+
+                <!-- Week Days -->
+                <div class="weekdays">
+                    <template for:each={weekdays} for:item="day">
+                        <div key={day}>{day}</div>
+                    </template>
+                </div>
+
+                <!-- Dates -->
+                <div class="days">
+                    <template for:each={calendarDays} for:item="day">
+                        <div key={day.key}
+                             class={day.class}
+                             data-date={day.fullDate}
+                             data-disabled={day.isDisabled}
+                             onclick={selectDate}>
+                            {day.label}
+                        </div>
+                    </template>
+                </div>
+
+                <!-- Footer -->
+                <div class="footer" onclick={goToday}>
+                    Today
+                </div>
+
+            </div>
+        </template>
+    </div>
+</template>
