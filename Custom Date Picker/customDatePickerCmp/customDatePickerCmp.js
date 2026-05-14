@@ -4,7 +4,7 @@ export default class CustomDatePickerCmp extends LightningElement {
 
     @track showCalendar = false;
     @track selectedDate;
-
+    @api placeHolder = 'Select Date';
     current = new Date();
 
     weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -14,12 +14,12 @@ export default class CustomDatePickerCmp extends LightningElement {
     @api minYear;
     @api maxYear;
     @api daysDisabled = [];
-
+    @api mode = 'default';
 
     get formattedDate() {
-        if (!this.selectedDate) return 'Select Date';
+        if (!this.selectedDate) return this.placeHolder;
         const d = new Date(this.selectedDate);
-        return `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`;
+        return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
     }
 
     get inputClass() {
@@ -84,35 +84,50 @@ export default class CustomDatePickerCmp extends LightningElement {
     }
 
 
-    buildDay(year, month, day, isMuted) {
-        const date = new Date(year, month, day);
+buildDay(year, month, day, isMuted) {
+    const date = new Date(year, month, day);
 
+    const currentDate = this.stripTime(date);
+    const today = this.stripTime(new Date());
 
-        const currentDate = this.stripTime(date);
-        const min = this.minDate ? this.stripTime(this.minDate) : null;
-        const max = this.maxDate ? this.stripTime(this.maxDate) : null;
+    const min = this.minDate ? this.stripTime(this.minDate) : null;
+    const max = this.maxDate ? this.stripTime(this.maxDate) : null;
 
-        const isOutOfRange =
-            (min && currentDate < min) ||
-            (max && currentDate > max);
+    let isDisabled = false;
 
+    // Mode 1: Default (existing behavior)
+    if (this.mode === 'default') {
         const dayOfWeek = date.getDay();
-        const isWeekDayDisabled = this.daysDisabled ? this.daysDisabled.includes(dayOfWeek) : 0;
 
-        const isDisabled = isOutOfRange || isWeekDayDisabled;
+        isDisabled =
+            (min && currentDate < min) ||
+            (max && currentDate > max) ||
+            (this.daysDisabled?.includes(dayOfWeek));
 
-        return {
-            key: date.getTime(),
-            label: day,
-            fullDate: date.toISOString(),
-            isDisabled: isOutOfRange,
-            class:
-                'day ' +
-                (isMuted ? 'muted ' : '') +
-                (isDisabled ? 'disabled ' : '') +
-                (this.isSelected(date) ? 'selected' : '')
-        };
     }
+
+    //  Mode 2: Only Past Disabled
+    else if (this.mode === 'pastOnly') {
+        isDisabled = currentDate < today;
+    }
+
+    // Mode 3: Past + Future Disabled (ONLY TODAY ALLOWED)
+    else if (this.mode === 'pastAndFuture') {
+        isDisabled = currentDate.getTime() !== today.getTime();
+    }
+
+    return {
+        key: date.getTime(),
+        label: day,
+        fullDate: date.toISOString(),
+        isDisabled: isDisabled,
+        class:
+            'day ' +
+            (isMuted ? 'muted ' : '') +
+            (isDisabled ? 'disabled ' : '') +
+            (this.isSelected(date) ? 'selected' : '')
+    };
+}
 
 
     isSelected(date) {
@@ -132,6 +147,7 @@ export default class CustomDatePickerCmp extends LightningElement {
                 formattedDate: this.formattedDate
             }
         }));
+                 this.showCalendar = false;
     }
 
 
