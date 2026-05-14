@@ -1,0 +1,22 @@
+<lightning-card  variant="Narrow"  title="Custom Range Datepicker" icon-name="standard:account">
+        <div  class="slds-p-around_xx-large">
+                                <div class="custom-input-wrapper">
+                                                <lightning-input placeholder="Range Datepicker" type="text" name="input2" label="Date field with a predefined value" onclick={openDate} value={selectedRange}></lightning-input>
+                                                <lightning-icon
+                                                icon-name="utility:event"
+                                                alternative-text="Select dates"
+                                                size="x-small"
+                                                class="calender-icon"
+                                                ></lightning-icon>
+                                </div>
+<!-- <a href="#" onclick={openDate} class="dateLabel">Custom Date</a> -->
+        <template if:true={showCustomDatePicker}>
+        <c-custom-range-datepicker 
+        onrangeapply={handleRangeApply} 
+        onrangeclear={handleRangeClear}
+        onclosepicker={closeCustomDatePicker}>
+        </c-custom-range-datepicker>
+        </template>
+        </div>
+<p slot="footer">Card Footer</p>
+</lightning-card>

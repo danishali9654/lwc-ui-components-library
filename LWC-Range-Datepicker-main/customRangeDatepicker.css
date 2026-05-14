@@ -1,0 +1,163 @@
+/* Container for the date range picker */
+.date-range-wrapper {
+  position: relative;
+}
+
+/* Calendar popup styling */
+.date-range-wrapper .calendar-container {
+  position: absolute;
+  top:0px;
+  left: 0;
+  background: #fff;
+  border: 1px solid #dddbda;
+  border-radius: 0.25rem;
+  box-shadow: 0 2px 6px 0 rgba(0,0,0,0.16);
+  z-index: 100;
+  padding: 0.75rem 1rem 1rem 1rem;
+  min-width: 320px;
+}
+
+
+/* Calendar grid */
+.date-range-wrapper .calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 2.25rem);
+  gap: 2px;
+  min-width: 250px;
+}
+
+/* Day cell base */
+.date-range-wrapper .slds-day {
+  width: 2.25rem;
+  height: 2.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: 2px;
+  border-radius:4px;
+  cursor: pointer;
+  font-size: 1rem;
+  background: transparent;
+  color: #080707;
+  transition: background 0.2s, color 0.2s;
+  user-select: none;
+}
+
+/* Hover effect */
+
+
+/* Selected start/end day */
+.date-range-wrapper .selected,
+.date-range-wrapper .slds-day:hover {
+  background-color: #1EB0DD!important;
+  color: #fff!important;
+  font-weight: bold;
+}
+.date-range-wrapper .selected.range-start {
+  border-top-left-radius: 100px;
+  border-bottom-left-radius: 100px;
+  border-right: 1px #fff solid!important;
+  position: relative;
+}
+.date-range-wrapper .selected.range-start .slds-day{
+  position: absolute;
+  border: 1px #fff solid;
+  height: 32px;
+  width: 32px;
+  border-radius: 100px;
+  background-color: #1EB0DD;
+  left: -7px;
+  top:0px;
+  color:#fff;
+}
+.date-range-wrapper .selected.range-end,
+.date-range-wrapper .selected.range-end:hover {
+  border-top-right-radius: 100px;
+  border-bottom-right-radius: 100px;
+  color:#fff!important;
+} 
+
+/* In-range days */
+.date-range-wrapper .in-range{
+  background-color: #1EB0DD!important;
+  color: #fff!important;
+  border-radius:0px;
+}
+.date-range-wrapper .in-range span.slds-day {
+  color: #fff!important;
+}
+.date-range-wrapper .single-selected .slds-day {
+background-color: #1EB0DD!important;
+color: #fff!important;
+border-radius:4px;
+}
+
+/* Empty cells (before/after month) */
+.date-range-wrapper .empty {
+  pointer-events: none;
+  background: transparent;
+  color: transparent;
+}
+
+/* Table and header */
+.date-range-wrapper .slds-datepicker__month {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.date-range-wrapper .slds-datepicker__month th,
+.date-range-wrapper .slds-datepicker__month td  {
+  font-family: var(--standard-fonts) !important;
+  color:#444444;
+  font-weight: 400;
+  font-size:1rem;
+  text-align:center;
+}
+
+.date-range-wrapper .slds-datepicker__month td,
+.date-range-wrapper .slds-datepicker__month td .slds-day {
+  font-family: var(--standard-fonts) !important;
+  padding: 0;
+  font-weight: 400!important;
+}
+
+.date-range-wrapper .slds-datepicker__filter {
+  margin-bottom: 0.5rem;
+}
+
+.date-range-wrapper .slds-datepicker__filter_month {
+  align-items: center;
+}
+
+.date-range-wrapper .slds-select_container {
+  margin-left: 0.5rem;
+}
+
+.date-range-wrapper .slds-button_icon {
+  background: transparent!important;
+  border: none;
+  padding: 0;
+}
+
+
+.date-range-wrapper .slds-align-middle {
+font-family: var(--standard-fonts) !important;
+font-size: 1rem !important;
+font-weight: 400 !important;
+color: #181818 !important;
+text-transform: capitalize;
+}
+
+
+.date-range-wrapper .slds-button.slds-button_neutral,
+.date-range-wrapper .slds-button.slds-button_text-destructive {
+  margin-top: 0.5rem;
+}
+
+.date-range-wrapper .disabled-day,
+.date-range-wrapper .disabled-day  .disabled-text {
+    pointer-events: none;
+    color: #ccc !important;
+}

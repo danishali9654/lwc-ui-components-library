@@ -1,0 +1,80 @@
+<template>
+  <div class="slds-form-element date-range-wrapper">
+    <div class="slds-form-element__control">
+      <div class="slds-input-has-icon slds-input-has-icon_right" onclick={toggleCalendar}>
+        <!-- <input
+          type="text"
+          class="slds-input"
+          readonly
+          value={displayValue}
+          placeholder="Select date range"
+        /> -->
+        <!-- <lightning-icon
+          icon-name="utility:event"
+          alternative-text="Select dates"
+          size="x-small"
+          class="slds-input__icon slds-input__icon_right"
+        ></lightning-icon> -->
+      </div>
+    </div>
+    <!--<template if:true={showCalendar}> Datepicker not opening on one click because condition shocalender true after click on 2 time-->
+      <section
+        class="slds-datepicker slds-dropdown slds-dropdown_left calendar-container"
+        onclick={stopClickPropagation}
+      >
+        <div class="slds-datepicker__filter slds-grid slds-m-bottom_x-small">
+          <div class="slds-datepicker__filter_month slds-grid slds-grid_align-spread slds-grow">
+            <button class="slds-button slds-button_icon slds-button_icon-container" title="Previous Month" onclick={prevMonth}>
+              <lightning-icon icon-name="utility:left" size="x-small"></lightning-icon>
+              <span class="slds-assistive-text">Previous Month</span>
+            </button>
+            <h2 class="slds-align-middle" id="month">{monthLabel} {displayedYear}</h2>
+            <button class="slds-button slds-button_icon slds-button_icon-container" title="Next Month" onclick={nextMonth}>
+              <lightning-icon icon-name="utility:right" size="x-small"></lightning-icon>
+              <span class="slds-assistive-text">Next Month</span>
+            </button>
+          </div>
+          <div class="slds-shrink-none">
+            <label class="slds-assistive-text" for="year-select">Pick a Year</label>
+            <div class="slds-select_container">
+              <select class="slds-select" id="year-select" value={displayedYear} onchange={handleYearChange}>
+              <template for:each={yearOptions} for:item="year">
+              <option key={year} value={year}>{year}</option>
+              </template>
+              </select>
+            </div>
+          </div>
+        </div>
+        <table class="slds-datepicker__month" role="grid">
+          <thead>
+            <tr>
+              <template for:each={weekdays} for:item="day">
+                <th key={day} scope="col"><abbr title={day}>{day}</abbr></th>
+              </template>
+            </tr>
+          </thead>
+          <tbody>
+            <template for:each={calendarRows} for:item="row">
+              <tr key={row.key}>
+                <template for:each={row.days} for:item="day">
+                 <td key={day.key} aria-selected={day.selected} class={day.class} role="gridcell" tabindex="0">
+    <template if:true={day.disabled}>
+        <span class="slds-day disabled-text" data-date={day.dateString}>{day.label}</span>
+    </template>
+    <template if:false={day.disabled}>
+        <span class="slds-day" data-date={day.dateString} onclick={handleDateClick}>{day.label}</span>
+    </template>
+</td>
+                </template>
+              </tr>
+            </template>
+          </tbody>
+        </table>
+        <div class="slds-m-top_small slds-align_absolute-center">
+          <button class="slds-button slds-button_neutral" onclick={applyRange}>Apply</button>
+          <button class="slds-button slds-button_text-destructive slds-m-left_small" onclick={clearRange}>Clear</button>
+        </div>
+      </section>
+    <!--</template>-->
+  </div>
+</template>

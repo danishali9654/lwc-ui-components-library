@@ -1,0 +1,241 @@
+import { LightningElement, track, wire, api } from 'lwc';
+const MONTHS = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+];
+const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+export default class CustomRangeDatepicker extends LightningElement {
+ @track showCalendar = false;
+    @track startDate = null;
+    @track endDate = null;
+    @track displayedMonth = (new Date()).getMonth();
+    @track displayedYear = (new Date()).getFullYear();
+
+   formatDate(dateStr) {
+    if (!dateStr) return '';
+    const d = new Date(dateStr);
+    const day = String(d.getDate()).padStart(2, '0');
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const year = String(d.getFullYear()).slice(-2);
+    return `${day}-${month}-${year}`;
+}
+
+get displayValue() {
+    if (this.startDate && this.endDate) {
+        if (this.startDate === this.endDate) {
+            return this.formatDate(this.startDate);
+        }
+        return `${this.formatDate(this.startDate)} to ${this.formatDate(this.endDate)}`;
+    }
+    if (this.startDate) {
+        return this.formatDate(this.startDate);
+    }
+    return '';
+}
+
+    get monthLabel() {
+        return MONTHS[this.displayedMonth];
+    }
+
+    get yearOptions() {
+        const current = (new Date()).getFullYear();
+        return Array.from({length: 11}, (_, i) => current - 5 + i);
+    }
+
+    get weekdays() {
+        return WEEKDAYS;
+    }
+
+    get calendarRows() {
+    const days = [];
+    const firstDay = new Date(this.displayedYear, this.displayedMonth, 1);
+    const lastDay = new Date(this.displayedYear, this.displayedMonth + 1, 0);
+    let dayOfWeek = firstDay.getDay();
+    let row = [];
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    // Fill empty days before 1st
+    for (let i = 0; i < dayOfWeek; i++) {
+        // Calculate the actual past date for this empty cell
+        const prevDateObj = new Date(this.displayedYear, this.displayedMonth, 1 - (dayOfWeek - i));
+        prevDateObj.setHours(0, 0, 0, 0);
+        const prevDateString = prevDateObj.toISOString().slice(0, 10);
+        const prevDay = prevDateObj.getDate();
+        const prevDayOfWeek = prevDateObj.getDay();
+        // Only disable if not Saturday (6) or Sunday (0)
+        const isWeekend = prevDayOfWeek === 0 || prevDayOfWeek === 6;
+            row.push({
+                key: `empty-${i}`,
+                class: 'disabled-day past-date-cell',
+                label: prevDay,
+                dateString: prevDateString,
+                selected: false,
+                disabled: true
+            });
+
+    }
+
+const currentMonth = today.getMonth();
+const currentYear = today.getFullYear();
+
+// Disable all dates from past months
+if (
+    this.displayedYear < currentYear ||
+    (this.displayedYear === currentYear && this.displayedMonth < currentMonth)
+) {
+    dayClass += ' disabled-day';
+    disabled = true;
+}
+
+
+    // Fill days of month
+    for (let d = 1; d <= lastDay.getDate(); d++) {
+        const dateObj = new Date(this.displayedYear, this.displayedMonth, d);
+        dateObj.setHours(0, 0, 0, 0);
+        const dateString = [
+        dateObj.getFullYear(),
+        String(dateObj.getMonth() + 1).padStart(2, '0'),
+        String(dateObj.getDate()).padStart(2, '0')
+        ].join('-');
+        let dayClass = '';
+        let selected = false;
+        let disabled = false;
+        const dayOfWeek = dateObj.getDay();
+        const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
+
+        // Disable past days except Saturday and Sunday
+        // if (dateObj < today && !isWeekend) {
+        //     dayClass += ' disabled-day';
+        //     disabled = true;
+        // }
+
+        // Highlight selection/range only if not disabled
+        if (!disabled) {
+            if (this.startDate && this.endDate) {
+                if (dateString === this.startDate && dateString === this.endDate) {
+                    dayClass += ' single-selected';
+                    selected = true;
+                } else {
+                    if (dateString === this.startDate) {
+                        dayClass += ' selected range-start ';
+                        selected = true;
+                    }
+                    if (dateString === this.endDate) {
+                        dayClass += ' selected range-end ';
+                        selected = true;
+                    }
+                    if (dateString > this.startDate && dateString < this.endDate) {
+                        dayClass += ' in-range';
+                    }
+                }
+            } else if (this.startDate && !this.endDate && dateString === this.startDate) {
+                dayClass += ' single-selected';
+                selected = true;
+            }
+        }
+
+        row.push({
+            key: dateString,
+            class: dayClass,
+            label: d,
+            dateString,
+            selected,
+            disabled
+        });
+        if (row.length === 7) {
+            days.push({ key: `row-${days.length}`, days: row });
+            row = [];
+        }
+    }
+    // Fill empty days after last
+    if (row.length) {
+        while (row.length < 7) {
+            row.push({ key: `empty-end-${row.length}`, class: 'empty', label: '', dateString: '', selected: false, disabled: false });
+        }
+        days.push({ key: `row-${days.length}`, days: row });
+    }
+    return days;
+}
+
+handleDateClick(event) {
+    const date = event.currentTarget.dataset.date;
+    const isDisabled = event.currentTarget.classList.contains('disabled-day');
+    if (!date || isDisabled) return;
+
+    // If starting a new selection or both dates are already selected, reset endDate
+    if (!this.startDate || (this.startDate && this.endDate)) {
+        this.startDate = date;
+        this.endDate = null;
+    } else if (date < this.startDate) {
+        this.endDate = this.startDate;
+        this.startDate = date;
+    } else if (date === this.startDate) {
+        // If the same date is clicked again, treat as single date
+        this.endDate = null;
+    } else {
+        this.endDate = date;
+    }
+}
+
+    toggleCalendar(event) {
+        event.stopPropagation();
+        this.showCalendar = !this.showCalendar;
+        if (this.showCalendar) {
+            window.addEventListener('click', this.closeCalendarOnOutsideClick);
+        } else {
+            window.removeEventListener('click', this.closeCalendarOnOutsideClick);
+        }
+    }
+
+    closeCalendarOnOutsideClick = (event) => {
+        if (!this.template.contains(event.target)) {
+            this.showCalendar = false;
+            window.removeEventListener('click', this.closeCalendarOnOutsideClick);
+        }
+    };
+
+    stopClickPropagation(event) {
+        event.stopPropagation();
+    }
+
+    
+
+    prevMonth(event) {
+        event.stopPropagation();
+        if (this.displayedMonth === 0) {
+            this.displayedMonth = 11;
+            this.displayedYear -= 1;
+        } else {
+            this.displayedMonth -= 1;
+        }
+    }
+
+    nextMonth(event) {
+        event.stopPropagation();
+        if (this.displayedMonth === 11) {
+            this.displayedMonth = 0;
+            this.displayedYear += 1;
+        } else {
+            this.displayedMonth += 1;
+        }
+    }
+
+    handleYearChange(event) {
+        this.displayedYear = parseInt(event.target.value, 10);
+    }
+
+    applyRange() {
+        this.showCalendar = false;
+        this.dispatchEvent(new CustomEvent('rangeapply', {
+            detail: { startDate: this.startDate, endDate: this.endDate }
+        }));
+    }
+
+    clearRange() {
+        this.startDate = null;
+        this.endDate = null;
+        this.dispatchEvent(new CustomEvent('rangeclear'));
+    }
+
+}
