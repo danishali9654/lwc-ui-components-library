@@ -1,0 +1,62 @@
+.wrap-text {
+    white-space: normal;
+    word-break: break-word;
+}
+
+.pagination {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.cstmCardStyle {
+    margin-top: 24px;
+    display: block;
+}
+
+.pagination .pagination-tab {
+    font-family: var(--standard-fonts);
+    font-weight: 400;
+    font-size: 0.875rem;
+    width: 2rem;
+    height: 2rem;
+    background-color: var(--pagDefaultBg);
+    color: var(--pagDefaultText);
+    border: none;
+    border-radius: 8px;
+}
+
+.pagination .pagination-tab.activeTab {
+    background-color: var(--pagActiveBg);
+    color: var(--pagActiveText);
+}
+
+@media only screen and (max-width:48em) {
+    .pagination {
+        gap: 0;
+    }
+
+    .pagination-tab {
+        width: 1.5rem!important;
+        height: auto!important;
+        color: #58595B!important;
+    }
+
+    .pagination-tab.activeTab {
+        color: #00A9A9!important;
+        background-color: transparent!important;
+    }
+
+    .pagination-header {
+        padding: 0px;
+        background-color: transparent;
+        border: none;
+    }
+
+    .scrollable-table {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+
+}

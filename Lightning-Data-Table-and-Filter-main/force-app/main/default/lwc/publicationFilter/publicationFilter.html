@@ -1,0 +1,40 @@
+<template>
+    <div class="slds-grid slds-gutters_xx-small slds-grid_align-end">
+        <div class="slds-col">
+            <!-- Company Name Search -->
+            <lightning-input
+                label="Company Name"
+                class="slds-m-bottom_none nwsfltrInput"
+                variant="label-hidden"
+                placeholder="Filter by company name"
+                onchange={handleCompanyChange}>
+            </lightning-input>
+        </div>
+
+        <div class="slds-col">
+            <!-- Month Dropdown -->
+            <lightning-combobox
+                label="Month"
+                variant="label-hidden"
+                class="slds-m-bottom_none nwsfltrDrop"
+                value={selectedMonth}
+                placeholder="Month"
+                options={monthOptions}
+                onchange={handleMonthChange}>
+            </lightning-combobox>
+        </div>
+
+        <div class="slds-col">
+            <!-- Year Dropdown -->
+            <lightning-combobox
+                label="Year"
+                variant="label-hidden"
+                class="slds-m-bottom_none nwsfltrDrop"
+                value={selectedYear}
+                placeholder="Year"
+                options={yearOptions}
+                onchange={handleYearChange}>
+            </lightning-combobox>
+        </div>
+    </div>
+</template>

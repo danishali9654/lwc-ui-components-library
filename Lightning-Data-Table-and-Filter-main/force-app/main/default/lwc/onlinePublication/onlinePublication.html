@@ -1,0 +1,37 @@
+<template>
+    <div class="cstmonlinePublication">
+        <div class="slds-m-top_large">
+            <c-publication-filter onfilterchange={handleFilterChange}></c-publication-filter>
+        </div>
+        
+        <c-publication-table
+            key-field="id"
+            data={paginatedData}
+            class="WrapText"
+            columns={columns}
+            hide-checkbox-column="true"
+            onsort={handleSort}
+            sorted-by={sortedBy}
+            sorted-direction={sortedDirection}
+            column-widths-mode="fixed">
+            
+        </c-publication-table>
+        <div class="slds-grid slds-grid_vertical-align-center slds-m-top_x-large">
+            <div class="slds-col">
+                <div class="pagination">
+                    <template for:each={pageNumbers} for:item="page">
+                        <button class="pagination-tab slds-button slds-button_neutral" key={page} onclick={handlePageChange} data-id={page}>
+                            {page}
+                        </button>
+                    </template>
+                    <button class="lastBtn slds-button slds-button_neutral" onclick={handleLastPage}>Last</button>
+                </div>
+            </div>
+            <div class="slds-col_bump-left">
+                <div class="pagination-header">
+                    <div>{startRecord}–{endRecord} of <span>{totalRecords}</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
