@@ -1,0 +1,59 @@
+<template>
+    <div class="wrapper slds-p-around_small">
+        <template if:true={heading}>
+            <h2 class="cstm-table-heading">{heading}</h2>
+        </template>
+
+        <div class="cstm-datatable-wrapper">
+            <table
+                class="slds-table slds-table_cell-buffer summary-table"
+                role="table"
+            >
+                <tbody>
+                    <template for:each={_sections} for:item="sec">
+                        <template if:true={sec.modeSimple}>
+                            <tr key={sec.key} class={sec.stripeClass}>
+                                <th scope="row" class="label-cell cstm-p-cell cstm-first-col">{sec.title}</th>
+                                <td class="value-cell cstm-p-cell dataColClass" colspan="2">{sec.value}</td>
+                            </tr>
+                        </template>
+
+                        <template if:true={sec.modeChild}>
+                            <template if:false={useDatatableForChildren}>
+                                <template for:each={sec.children} for:item="child">
+                                    <tr key={child.key} class={child.stripeClass}>
+                                        <th
+                                            class="label-cell cstm-p-cell cstm-first-col"
+                                            scope="row"
+                                        >
+                                            <template if:true={child.isFirst}>
+                                                {sec.title}
+                                            </template>
+                                        </th>
+                                        <td class="name-cell cstm-p-cell dataColClass slds-p-vertical_small slds-p-horizontal_medium">{child.name}</td>
+                                        <td class="cost-cell cstm-p-cell dataColClass slds-p-vertical_small slds-p-horizontal_medium slds-text-align_right">{child.cost}</td>
+                                    </tr>
+                                </template>
+                            </template>
+
+                            <template if:true={useDatatableForChildren}>
+                                <tr key={sec.datatableKey} class={sec.datatableRowStripeClass}>
+                                    <th class="label-cell cstm-p-cell label-cell--top cstm-first-col slds-p-vertical_small slds-p-horizontal_medium" scope="row">{sec.title}</th>
+                                    <td colspan="2" class="datatable-cell dataColClass slds-p-vertical_small slds-p-horizontal_medium">
+                                        <lightning-datatable
+                                            key-field="id"
+                                            data={sec.childDatatableData}
+                                            columns={sec.childDatatableColumns}
+                                            hide-checkbox-column
+                                        >
+                                        </lightning-datatable>
+                                    </td>
+                                </tr>
+                            </template>
+                        </template>
+                    </template>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</template>

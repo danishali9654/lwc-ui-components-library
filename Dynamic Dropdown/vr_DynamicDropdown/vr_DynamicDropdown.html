@@ -1,0 +1,56 @@
+<template>
+    <div class={formElementClass}>
+        <label if:true={label} class="slds-form-element__label">{label}</label>
+        <div class="slds-form-element__control">
+            <div class="slds-combobox_container">
+                <div class={dropdownClass} aria-expanded={isOpen} aria-haspopup="listbox" role="combobox">
+                    <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none" onclick={toggleDropdown}>
+                        <!-- <input type="text" class="slds-input slds-combobox__input cstm-input-block" style={inputStyle} -->
+                        <input type="text" class="slds-input slds-combobox__input cstm-input-block"
+                               readonly required={isRequired} placeholder={placeholder} value={selectedLabel} onblur={handleBlur} />
+                        <img src={icons.dropDownArrow} class="cstm-arrow-img slds-input__icon slds-input__icon_right"  />
+                    </div>
+                    <div class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid cstm-dropdown-container" role="listbox" onmousedown={handleDropdownMouseDown}>
+                        <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                            <template for:each={_options} for:item="item">
+                                <li role="presentation" class="slds-listbox__item" key={item.value} onclick={handleSelect} data-value={item.value}>
+                                    <div class={item.containerClass} role="option">
+                                        <span class="slds-media__figure slds-listbox__option-icon cstm-icon-padding" if:true={item.iconName}>
+                                            <lightning-icon icon-name={item.iconName} size="xx-small" class="slds-icon-utility-check slds-icon_container"></lightning-icon>
+                                        </span>
+                                        <span class="slds-media__body">
+                                            <span class="slds-truncate slds-p-vertical_x-small" title={item.label}>
+                                                <template if:true={item.link}>
+                                                    <template if:true={item.linkLabel}>
+                                                        <span if:true={item.label} class="slds-m-right_xx-small">{item.label}</span>
+                                                        <a href={item.link} target="_blank" onclick={handleLinkClick}>{item.linkLabel}</a>
+                                                        <template if:true={item.extraText}>
+                                                            <span class={item.extraTextClass}>{item.extraText}</span>
+                                                        </template>
+                                                    </template>
+                                                    <template if:false={item.linkLabel}>
+                                                        <a href={item.link} target="_blank" onclick={handleLinkClick}>{item.label}</a>
+                                                        <template if:true={item.extraText}>
+                                                            <span class={item.extraTextClass}>{item.extraText}</span>
+                                                        </template>
+                                                    </template>
+                                                </template>
+                                                <template if:false={item.link}>
+                                                    {item.label}
+                                                    <template if:true={item.extraText}>
+                                                        <span class={item.extraTextClass}>{item.extraText}</span>
+                                                    </template>
+                                                </template>
+                                            </span>
+                                        </span>
+                                    </div>
+                                </li>
+                            </template>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div if:true={hasError} class="slds-form-element__help">Complete this field.</div>
+        </div>
+    </div>
+</template>

@@ -1,0 +1,42 @@
+.summary-table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+.label-cell {
+    /* width: 32%; */
+    font-weight: 700;
+    vertical-align: top;
+}
+
+.label-cell--top {
+    vertical-align: top;
+}
+
+/* .name-cell {
+    width: 40%;
+}
+
+.cost-cell {
+    width: 28%;
+} */
+
+.value-cell {
+    word-break: break-word;
+}
+
+.datatable-cell {
+    padding: 0;
+    vertical-align: top;
+}
+
+.stripe-even {
+    background-color: #ffffff;
+}
+
+.stripe-odd {
+    background-color: #f3f3f3;
+}
+.cstm-p-cell {
+    padding: 12px !important
+}
