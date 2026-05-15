@@ -1,0 +1,42 @@
+.emp-cell {
+    display: flex;
+    align-items: center;
+}
+.bulkVisaTbl.slds-table{
+    border:1px #E9E9E9 solid!important;
+    border-radius: 8px;
+    overflow: hidden;
+}
+.slds-table .avatar-wrappe {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #e5e5e5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 8px;
+}
+
+.slds-table .avatar-wrappe .emp-img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.slds-table .columCenter{
+    text-align:center!important;
+}
+
+.row-pending,
+.row-pending:hover {
+    background-color: #FFEBEB!important;   /* light red */
+}
+
+/* Container alignment inside table cell */
+.utility-progress {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+

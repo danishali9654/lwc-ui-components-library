@@ -1,0 +1,46 @@
+html, body{
+     font-family: var(--standard-fonts) !important;
+}
+.bulkvisaTab{
+    padding-bottom:0px;
+}
+.bulkvisaTab menu.tabLink{
+    margin-bottom:0px;
+    margin-left:35px;
+}
+.bulkvisaTab menu.tabLink a{
+    padding-block:18px;
+}
+.slds-tabs_default__content{
+    padding-left:15px;
+}
+.top-filter{
+    width: 220px;
+}
+.top-filter.statusCombo{
+        width: 170px;
+}
+/**below css for upload documents styling start**/
+/* Bottom row */
+.visaNotBox{
+background-color:#FEF9E9;
+border-radius:8px;
+padding:12px 15px;
+}
+.visaNotBox.alert{
+background-color:#FFEBEB;
+}
+
+
+.sub-label {
+color: #474747 !important;
+font-size: 14px;
+font-weight: 400;
+font-style: normal !important;
+margin-top: 0;
+}
+.btnMenu{
+    height:36px;
+}
+
+/** upload document css styling end **/

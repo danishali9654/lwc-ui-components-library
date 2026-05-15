@@ -1,0 +1,176 @@
+<template>
+   
+
+                                <div class="slds-grid slds-wrap slds-grid_align-spread slds-m-vertical_medium">
+                                    <div class="slds-size_1-of-1">
+                                            <!-- TOP FILTER BAR -->
+                                            <h2 class="bulkVisaTitle slds-p-bottom_large">
+                                            Employee List for Visa Application
+                                            </h2>
+                                    </div>
+                                    <!-- LEFT: Total Records -->
+                                    <div class="slds-col slds-align-middle">
+                                            <!-- SELECTED COUNT -->
+                                            <div class="slds-text-body_small">
+                                                {selectedCount} / {filteredCount} selected
+                                            </div>
+                                        <!-- <strong>Total Records: {filteredCount}</strong> -->
+                                    </div>
+
+                                    <!-- RIGHT: Filters + Add -->
+                                    <div class="slds-bump-left slds-text-align_right slds-grid slds-gutters_x-small">
+                                        <div class="slds-col">
+                                        <lightning-input
+                                            type="search"
+                                            variant="label-hidden"
+                                            placeholder="Search Name / Passport"
+                                            class="top-filter"
+                                            onchange={handleSearch}>
+                                        </lightning-input>
+                                        </div>
+                                        <div class="slds-col cstm-combobox inputBoxWidth lookup slds-p-top_none">
+                                        <lightning-combobox
+                                            variant="label-hidden"
+                                            value={completionFilter}
+                                            options={completionOptions}
+                                            class="top-filter statusCombo"
+                                            onchange={handleCompletionFilter}>
+                                        </lightning-combobox>
+                                        </div>
+                                            <div class="slds-col">
+                                        <lightning-button
+                                            label="Add Employee"
+                                            class="btnSecondarystnd width100 addEmploye"
+                                            variant="neutral"
+                                            onclick={handleAddEmployee}>
+                                        </lightning-button>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <!-- CHILD TABLE (IMPORTANT CHANGE) -->
+                                <c-employee-visa-list
+                                    class="commonTable"
+                                    records={paginatedEmployees}
+                                    onrowselect={handleRowSelect}
+                                    onselectall={handleSelectAll}
+                                    onedit={handleEdit}
+                                    ondelete={handleDelete}>
+                                </c-employee-visa-list>
+                                        <div class="slds-m-top_medium slds-grid">
+                                        <div class="slds-col slds-size_4-of-5 pagination slds-grid alignCenter">
+                                        <!-- Prev -->
+                                        <lightning-button
+                                        label="Prev"
+                                        class="perviousBtn"
+                                        onclick={handlePrev}
+                                        disabled={isFirstPage}>
+                                        </lightning-button>
+
+                                        <!-- Page numbers -->
+                                        <div class="slds-m-horizontal_small">
+                                        <template for:each={pageButtons} for:item="p">
+                                        <lightning-button
+                                        key={p.number}
+                                        label={p.number}
+                                        variant={p.variant}
+                                        data-page={p.number}
+                                        onclick={goToPage}
+                                        class={p.className}>
+                                        </lightning-button>
+                                        </template>
+
+                                        </div>
+
+                                        <!-- Next -->
+                                        <lightning-button
+                                        label="Next"
+                                        class="nextBtn"
+                                        onclick={handleNext}
+                                        disabled={isLastPage}>
+                                        </lightning-button>
+
+                                        <lightning-button-menu
+                                        class="slds-m-left_small btnMenu"
+                                        alternative-text="Records shown"
+                                        label={pageStatus}
+                                        onselect={handlePageSizeSelect}>
+
+                                        <lightning-menu-item value="5" label="5"></lightning-menu-item>
+                                        <lightning-menu-item value="10" label="10"></lightning-menu-item>
+                                        <lightning-menu-item value="17" label="17"></lightning-menu-item>
+                                        <lightning-menu-item value="20" label="20"></lightning-menu-item>
+
+                                        </lightning-button-menu>
+                                        </div>
+
+                            <div class="slds-col_bump-left slds-size_1-of-5">
+
+                                        <!-- Continue button -->
+                                        <lightning-button
+                                        class="btnPrimarystnd width100"
+                                        variant="brand"
+                                        label="Continue"
+                                        disabled={isBulkDisabled}>
+                                        </lightning-button>
+                                        </div>
+                                </div>
+
+                                <!-- DELETE MODAL -->
+                            
+                                    <c-Cstm-Modal modal-title={modalTitle} is-open={showDeleteModal}
+                                        modal-class="cstmModalStyle2 amndModalStyle removeActivity">
+
+                                        <div slot="modal-body">
+
+                                            <template if:true={deleteErrorMsg}>
+                                                <div class="slds-m-bottom_small slds-text-align_center">
+                                                    <span class="slds-badge slds-theme_error slds-theme_alert-texture">
+                                                        {deleteErrorMsg}
+                                                    </span>
+                                                </div>
+                                            </template>
+
+                                            <div class="slds-col slds-size_1-of-1 slds-text-align_center">
+                                                <h4 class="hdngModal slds-p-bottom_medium">ARE YOU SURE YOU WANT TO DELETE?
+                                                </h4>
+                                                <p class="prgrphModal">File upload is in progress. Deleting the file now
+                                                    will
+                                                    interrupt the process.</p>
+                                            </div>
+                                            <div
+                                                class="slds-grid slds-wrap slds-gutters slds-m-top_x-large slds-grid_align-center">
+                                                <div class="slds-col slds-size_1-of-2">
+                                                    <lightning-button variant="brand" class="btnSecondarystnd width100"
+                                                        label="Cancel" onclick={showcloseDeleteModal}></lightning-button>
+                                                </div>
+                                                <div class="slds-col slds-size_1-of-2">
+                                                    <lightning-button variant="brand" class="btnPrimarystnd width100"
+                                                        label="DELETE ANYWAY" onclick={confirmDeleteEmp}></lightning-button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </c-Cstm-Modal>
+                                
+            <c-Cstm-Modal modal-title={modalTitle} is-open={showremoveConfirm}
+                                        modal-class="cstmModalStyle2 amndModalStyle removeActivity">
+                                        <div slot="modal-body">
+
+                                            <div class="slds-col slds-size_1-of-1 slds-text-align_center">
+                                                <h4 class="hdngModal slds-p-bottom_medium">Done!</h4>
+                                                <p class="prgrphModal">You have successfully deleted the file.</p>
+                                            </div>
+                                            <div
+                                                class="slds-grid slds-wrap slds-gutters slds-m-top_x-large slds-grid_align-center">
+                                                <div class="slds-col slds-size_1-of-2">
+                                                    <lightning-button variant="brand" class="btnPrimarystnd width100"
+                                                        label="Ok" onclick={showdeleteFile}></lightning-button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </c-Cstm-Modal>
+                           
+</template>

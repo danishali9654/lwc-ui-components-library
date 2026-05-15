@@ -1,0 +1,138 @@
+.slds-table .completed .slds-icon,
+.slds-table .pending .slds-icon{
+width:20px;
+height:20px;
+fill:#27BE36;
+}
+.slds-table .pending .slds-icon{
+fill:orange;
+}
+.slds-table .slds-icon-utility-edit,
+.slds-table .slds-icon-utility-delete {
+background: url(../SVG/tblEdit.svg) left 50% no-repeat!important;
+width:18px;
+height:18px;
+margin-right:10px;
+}
+.slds-table .slds-icon-utility-delete{
+background: url(../SVG/tblDel.svg) left 50% no-repeat!important;
+}
+.slds-table .slds-icon-utility-edit SVG,
+.slds-table .slds-icon-utility-delete SVG{
+display:none;
+}
+.cstm-combobox .statusCombo .slds-combobox__input{
+padding-top: 0 !important;
+}
+.addEmploye .slds-button{
+height:36px!important;
+font-size:14px!important;
+}
+.top-filter.statusCombo .slds-combobox__input{
+border-radius:8px!important;
+border-color:#EBEBEB!important;
+border-width:1px!important;
+font-size: 14px;
+color: #474747 !important;
+font-weight: 500;
+background-color:transparent!important;
+}
+.slds-scope .top-filter .slds-input-has-icon .slds-input__icon{
+display:block;
+}
+.visa-progress-ring .slds-progress-ring__path{
+fill:#1EB0DD;
+}
+.slds-progress-ring__progress-head circle.slds-progress-ring__path{
+display:none;
+}
+.visa-progress-ring .slds-progress-ring__content{
+background-color:#FFEBEB;
+}
+.rightPanelContent.bulkvisaPanel{
+overflow: visible !important;
+}
+.cstm_combobox_field .comboDropBox .slds-listbox{
+border: 1px solid #EBEBEB !important;
+}
+
+
+.amendTblCstm .noScroll .slds-table_header-fixed_container,
+.amendTblCstm .noScroll .slds-scrollable_y{
+    overflow:visible;
+}
+
+.amendTblCstm .slds-card{
+    border-color:#E9E9E9;
+}
+.amendTblCstm .slds-card .slds-card__header{
+    display:none;
+}
+.amendTblCstm .slds-card .slds-card__body{
+    margin-block:0px;
+}
+    .slds-scope .amendTblCstm .slds-table,
+    .slds-scope .nestedTable .slds-table{
+    padding-top: 12px;
+    border: 1px #E9E9E9 solid;
+    padding-top:0px;
+}
+.slds-scope .verticaMiddle .amendTblCstm  tbody  td,
+.slds-scope .verticaMiddle .amendTblCstm  tbody  th{
+    vertical-align: middle;
+}
+/* .slds-scope .amendTblCstm .slds-table tr{
+    height:44px;
+} */
+.slds-scope .amendTblCstm .slds-table .slds-th__action,
+.slds-scope .amendTblCstm .slds-line-height_res{
+    height:44px;
+}
+.slds-scope .amendTblCstm  th:first-child .slds-cell-fixed{
+border-top-left-radius:4px;
+}
+.slds-scope .amendTblCstm  th:last-child .slds-cell-fixed{
+border-top-right-radius:4px;
+}
+.slds-scope .amendTblCstm .slds-table_header-fixed_container{
+    padding-top:42px;
+}
+.slds-scope .amendTblCstm  th .slds-cell-fixed,
+.slds-scope .amendTblCstm .slds-th__action:focus, 
+.slds-scope .amendTblCstm .slds-th__action:hover,
+.slds-scope .nestedTable .slds-table thead th,
+.slds-scope .commonTable .slds-table thead th{
+    font-family:var(--standard-fonts)!important;
+    background-color:var(--ldtbl-hdngBgCol);
+    color:var(--ldtbl-hdngTxtCol);
+    font-size:var(--ldtbl-colFont);
+    font-weight:400;
+}
+.slds-scope  .slds-table{
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+.slds-scope .slds-table thead th:first-child{
+    border-top-left-radius: 8px;
+}
+.slds-scope .slds-table thead th:last-child{
+    border-top-right-radius: 8px;
+}
+
+.slds-scope  .slds-table tbody td,
+.slds-scope  .slds-table thead th,
+.slds-scope .slds-table .tblFooter td{
+    font-family:var(--standard-fonts)!important;
+    font-size:14px;
+    text-align:left;
+    vertical-align:middle;
+    border:none;
+}
+.slds-scope .slds-table .tblFooter {
+    background-color:#D9D9D9;
+    border:1px #E9E9E9 solid;
+    padding:10px;
+}
+.slds-scope .slds-table .tblFooter td{
+    font-weight:500;
+}

@@ -1,0 +1,80 @@
+<template>
+    <table class="slds-table slds-table_bordered bulkVisaTbl">
+        <thead>
+            <tr>
+                <th>
+                    <lightning-input type="checkbox" onchange={handleSelectAll}>
+                    </lightning-input>
+                </th>
+                <th>Employee Name</th>
+                <th>Passport</th>
+                <th>Nationality</th>
+                <th class="columCenter">Completion</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <template for:each={records} for:item="emp">
+                <tr key={emp.id} class={emp.rowClass}>
+                    <!-- Checkbox -->
+                    <td class="myCheckboxTheme">
+                        <lightning-input type="checkbox" data-id={emp.id} checked={emp.selected}
+                            onchange={handleSelect}>
+                        </lightning-input>
+                    </td>
+
+                    <!-- Employee -->
+                    <td>
+                        <div class="emp-cell">
+                            <div class="avatar-wrappe">
+                                <img src={emp.image} class="emp-img" />
+                            </div>
+                            <span>{emp.name}</span>
+                        </div>
+                    </td>
+
+                    <td>{emp.passport}</td>
+                    <td>{emp.nationality}</td>
+
+                    <!-- Completion -->
+                    <!-- Completion -->
+                    <td class="columCenter">
+
+                        <!-- Pending: animated ring -->
+                        <template if:true={emp.isPending}>
+                            <lightning-progress-ring value={emp.animatedProgress} size="xx-small" variant="active"
+                                class="visa-progress-ring">
+                            </lightning-progress-ring>
+                        </template>
+
+                        <!-- Completed -->
+                        <template if:false={emp.isPending}>
+                            <lightning-icon icon-name="utility:success" size="xx-small" class="completed">
+                            </lightning-icon>
+                        </template>
+
+                    </td>
+
+                    <!-- Actions -->
+                    <td>
+                        <span class="action-icon" data-id={emp.id} onclick={handleEdit}>
+
+                            <lightning-icon icon-name="utility:edit" size="x-small">
+                            </lightning-icon>
+
+                        </span>
+
+                        <span class="action-icon" data-id={emp.id} onclick={handleDelete}>
+
+                            <lightning-icon icon-name="utility:delete" size="x-small">
+                            </lightning-icon>
+
+                        </span>
+
+                    </td>
+                </tr>
+            </template>
+        </tbody>
+    </table>
+</template>
